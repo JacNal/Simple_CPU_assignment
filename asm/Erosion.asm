@@ -20,3 +20,43 @@ LD R4, #21 ;12
 SUB R4, R4, #1 ;13
 STORE_OFFSET, R4, R3, #779 ;14
 BRnzp, 001, #13 ;15
+
+;EROSION INITIALIZATION
+LD 1, R4 #18  ;16
+LD 1, R2 #19  ;17
+
+;Y LOOP
+SUB R4, R4, #1  ;18
+LD 1, R5 #18  ;19
+ADD 1, R2, R2, #2  ;20
+
+;X LOOP
+SUB R5, R5, #1  ;21
+ADD 1, R2, R2, #1  ;22
+LD 1, R7, #1  ;23
+
+;PIXEL+1
+LD 0, R6, R2  ;24
+AND R7, R7, R6  ;25
+ADD 1, R2, R2, #19  ;26
+
+;PIXEL+20
+LD 0, R6, R2  ;27
+AND R7, R7, R6  ;28
+SUB R2, R2, #40  ;29
+
+;PIXEL-20
+LD 0, R6, R2  ;30
+AND R7, R7, R6  ;31
+ADD 1, R2, R2, #19  ;32
+
+;PIXEL-1
+LD 0, R6, R2  ;33
+AND R7, R7, R6  ;34
+ADD 1 R2, R2, #2  ;35
+
+STORE_OFFSET R2, R7, #400	;36
+BRnzp 001, #21   ;R5  ;37
+BRnzp 001,  #18  ;R4  ;38
+
+END  ;39
