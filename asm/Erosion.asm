@@ -32,26 +32,26 @@ ADD 1, R2, R2, #2  					;19
 ;X LOOP
 
 ;PIXEL+1
-LD 0, R7, R2  							;20
+LD 0, R3, R2  							;20
 ADD 1, R2, R2, #19  				;21
 
 ;PIXEL+20
 LD 0, R6, R2  							;22
-AND R7, R7, R6  						;23
+AND R3, R3, R6  						;23
 SUB R2, R2, #40  						;24
 
 ;PIXEL-20
 LD 0, R6, R2  							;25
-AND R7, R7, R6  						;26
+AND R3, R3, R6  						;26
 ADD 1, R2, R2, #19  				;27
 
 ;PIXEL-1
 LD 0, R6, R2  							;28
-AND R7, R7, R6  						;29
+AND R3, R3, R6  						;29
 ADD 1 R2, R2, #3  					;30
 
 ;WRITE
-STORE_OFFSET R2, R7, #400		;31
+STORE_OFFSET R2, R3, #400		;31
 
 ;X LOOP CHECKUP
 SUB R5, R5, #1 							;32
