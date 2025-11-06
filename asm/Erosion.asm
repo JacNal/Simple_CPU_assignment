@@ -33,30 +33,28 @@ ADD 1, R2, R2, #2  ;20
 ;X LOOP
 SUB R5, R5, #1  ;21
 ADD 1, R2, R2, #1  ;22
-LD 1, R7, #1  ;23
 
 ;PIXEL+1
-LD 0, R6, R2  ;24
-AND R7, R7, R6  ;25
-ADD 1, R2, R2, #19  ;26
+LD 0, R7, R2  ;23
+ADD 1, R2, R2, #19  ;24
 
 ;PIXEL+20
-LD 0, R6, R2  ;27
-AND R7, R7, R6  ;28
-SUB R2, R2, #40  ;29
+LD 0, R6, R2  ;25
+AND R7, R7, R6  ;26
+SUB R2, R2, #40  ;27
 
 ;PIXEL-20
-LD 0, R6, R2  ;30
-AND R7, R7, R6  ;31
-ADD 1, R2, R2, #19  ;32
+LD 0, R6, R2  ;28
+AND R7, R7, R6  ;29
+ADD 1, R2, R2, #19  ;30
 
 ;PIXEL-1
-LD 0, R6, R2  ;33
-AND R7, R7, R6  ;34
-ADD 1 R2, R2, #2  ;35
+LD 0, R6, R2  ;31
+AND R7, R7, R6  ;32
+ADD 1 R2, R2, #2  ;33
 
-STORE_OFFSET R2, R7, #400	;36
-BRnzp 001, #21   ;R5  ;37
-BRnzp 001,  #18  ;R4  ;38
+STORE_OFFSET R2, R7, #400	;34
+BRnzp 001, #21   ;R5  ;35
+BRnzp 001,  #18  ;R4  ;36
 
-END  ;39
+END  ;37
