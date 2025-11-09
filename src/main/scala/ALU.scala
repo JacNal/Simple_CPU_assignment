@@ -17,7 +17,7 @@ class ALU extends Module {
   }
 
 
-  val ALUResult = Wire(0.U(32.W))
+  val ALUResult = WireDefault(0.U(32.W))
 
   switch(io.sel) {
     is(ALUOp.add) { ALUResult := io.operand1 + io.operand2}
