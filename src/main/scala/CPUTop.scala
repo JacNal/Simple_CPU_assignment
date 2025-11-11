@@ -32,6 +32,35 @@ class CPUTop extends Module {
   //programMemory.io.address := programCounter.io.programCounter
 
   ////////////////////////////////////////////
+  val haltReg = RegInit(false.B)
+  when (controlUnit.io.halt) {
+    haltReg := true.B
+  }
+
+  io.done := haltReg
+
+  programCounter.io.run := io.run && !haltReg
+  programCounter.io.stop := haltReg
+  programCounter.io.jump := controlUnit.io.pcJump
+
+  val instr = programMemory.io.instructionRead
+  val immPC = instr(24,9)
+  programCounter.io.programCounterJump := immPC
+
+  programMemory.io.address := programCounter.io.programCounter
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  val opCode = instr(31,28)
+  val controlBits = instr(27,25)
+
+  controlUnit.io.opCode := opCode
+  controlUnit.io.controlBits := controlBits
+  controlUnit.io.nzp := alu.io.nzp
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  val regPosOne = instr(24,21)
+  val regPosTwo = instr(20,17)
+  val regPosThree = instr(16,13)
   //Continue here with your connections
   ////////////////////////////////////////////
 
