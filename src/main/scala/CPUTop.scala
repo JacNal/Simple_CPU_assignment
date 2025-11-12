@@ -61,6 +61,30 @@ class CPUTop extends Module {
   val regPosOne = instr(24,21)
   val regPosTwo = instr(20,17)
   val regPosThree = instr(16,13)
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  val aSel = Wire(UInt(4.W))
+  val bSel = Wire(UInt(4.W))
+  val writeSel = Wire(UInt(4.W))
+
+  writeSel := regPosOne
+  aSel := regPosTwo
+  bSel := regPosThree
+
+  registerFile.io.aSel := aSel
+  registerFile.io.bSel := bSel
+  registerFile.io.writeSel := writeSel
+  registerFile.io.writeEnable := controlUnit.io.registerWriteEnable
+
+  val immALU = instr(16,1)
+  val immALUExtended = Cat(Fill(16,immALU(15)), immALU)
+
+  val ALUOp1 = registerFile.io.outA
+  val ALUOp2 = Mux(controlUnit.io.useIMM, immALUExtended, registerFile.io.outB)
+
+  alu.io.operand1 := ALUOp1
+  alu.io.operand2 := ALUOp2
+  alu.io.sel := controlUnit.io.ALUSel
   //Continue here with your connections
   ////////////////////////////////////////////
 

@@ -20,6 +20,5 @@ class RegisterFile extends Module {
   when (io.writeEnable) {
     registers(io.writeSel) := io.dataToWrite
   }
-  //Implement this module here
 
 }
