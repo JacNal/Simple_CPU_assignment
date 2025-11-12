@@ -28,13 +28,14 @@ class CPUTop extends Module {
   val alu = Module(new ALU())
 
   //Connecting the modules
-  //programCounter.io.run := io.run
+  programCounter.io.run := io.run
   //programMemory.io.address := programCounter.io.programCounter
   
   ////////////////////////////////////////////
   ////////////////////////////////////////////
-  val haltReg = RegInit(false.B)
-  when (controlUnit.io.halt) {
+  val haltReg = Reg(Bool())
+  haltReg := false.B
+  when (controlUnit.io.halt === true.B) {
     haltReg := true.B
   }
 
@@ -69,8 +70,8 @@ class CPUTop extends Module {
   val writeSel = Wire(UInt(4.W))
 
   writeSel := regPosOne
-  aSel := regPosTwo
-  bSel := regPosThree
+  aSel := Mux(controlUnit.io.memoryWriteEnable, regPosOne, regPosTwo)
+  bSel := Mux(controlUnit.io.memoryWriteEnable, regPosTwo, regPosThree)
 
   registerFile.io.aSel := aSel
   registerFile.io.bSel := bSel

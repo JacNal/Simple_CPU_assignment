@@ -45,7 +45,7 @@ class ControlUnit extends Module {
     is("b0001".U) {
       baseline.ALUSel := "b00".U(2.W)
       baseline.registerWriteEnable := true.B
-      baseline.useIMM := io.controlBits(2)
+      baseline.useIMM := io.controlBits(2) === 1.U
     }
     is("b1001".U) {
       baseline.ALUSel := "b01".U(2.W)
@@ -59,7 +59,7 @@ class ControlUnit extends Module {
     is("b0100".U) {
       baseline.isLoad := true.B
       baseline.registerWriteEnable := true.B
-      baseline.useIMM := io.controlBits(2)
+      baseline.useIMM := io.controlBits(2) === 1.U
     }
     is("b1100".U) {
       baseline.memoryWriteEnable := true.B
@@ -85,6 +85,7 @@ class ControlUnit extends Module {
   io.ALUSel := baseline.ALUSel
   io.registerWriteEnable := baseline.registerWriteEnable
   io.memoryWriteEnable := baseline.memoryWriteEnable
+  io.isLoad := baseline.isLoad
   io.pcJump := baseline.pcJump
   io.useIMM := baseline.useIMM
   io.halt := baseline.halt
