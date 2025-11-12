@@ -11,6 +11,7 @@ class ControlUnit extends Module {
     val ALUSel = Output(UInt(2.W))
     val registerWriteEnable = Output(Bool())
     val memoryWriteEnable = Output(Bool())
+    val isLoad = Output(Bool())
     val pcJump = Output(Bool())
     val useIMM = Output(Bool())
     val halt = Output(Bool())
@@ -22,6 +23,7 @@ class ControlUnit extends Module {
     val ALUSel = UInt(2.W)
     val registerWriteEnable = Bool()
     val memoryWriteEnable = Bool()
+    val isLoad = Bool()
     val pcJump = Bool()
     val useIMM = Bool()
     val halt = Bool()
@@ -31,6 +33,7 @@ class ControlUnit extends Module {
   default.ALUSel := "b00".U(2.W)
   default.registerWriteEnable := false.B
   default.memoryWriteEnable := false.B
+  default.isLoad := false.B
   default.pcJump := false.B
   default.useIMM := false.B
   default.halt := false.B
@@ -54,6 +57,7 @@ class ControlUnit extends Module {
       baseline.registerWriteEnable := true.B
     }
     is("b0100".U) {
+      baseline.isLoad := true.B
       baseline.registerWriteEnable := true.B
       baseline.useIMM := io.controlBits(2)
     }

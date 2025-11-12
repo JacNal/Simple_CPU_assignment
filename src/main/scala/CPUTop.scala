@@ -32,11 +32,6 @@ class CPUTop extends Module {
   //programMemory.io.address := programCounter.io.programCounter
   
   ////////////////////////////////////////////
-  when (controlUnit.io.useIMM) {
-    dataMemory.io.address := alu.io.result
-  }.otherwise{
-    dataMemory.io.address := registerFile.io.outA
-  }
   ////////////////////////////////////////////
   val haltReg = RegInit(false.B)
   when (controlUnit.io.halt) {
@@ -91,6 +86,34 @@ class CPUTop extends Module {
   alu.io.operand1 := ALUOp1
   alu.io.operand2 := ALUOp2
   alu.io.sel := controlUnit.io.ALUSel
+
+  val memAddr = Wire(UInt(16.W))
+  memAddr := 0.U
+
+  when (controlUnit.io.useIMM) {
+    memAddr := alu.io.result(15,0)
+  }.otherwise{
+    memAddr := registerFile.io.outA(15,0)
+  }
+
+  dataMemory.io.address := memAddr
+  dataMemory.io.writeEnable := controlUnit.io.memoryWriteEnable
+  dataMemory.io.dataWrite := registerFile.io.outB
+
+  val immLoad = instr(20,5)
+  val immLoadExtended = Cat(Fill(16, immLoad(15)), immLoad)
+  val wbData = Wire(UInt(32.W))
+  wbData := alu.io.result
+
+  when(controlUnit.io.isLoad && !controlUnit.io.useIMM) {
+    wbData := dataMemory.io.dataRead
+  }.elsewhen(controlUnit.io.isLoad && controlUnit.io.useIMM) {
+    wbData := immLoadExtended
+  }
+
+  registerFile.io.dataToWrite := wbData
+
+
   //Continue here with your connections
   ////////////////////////////////////////////
 
