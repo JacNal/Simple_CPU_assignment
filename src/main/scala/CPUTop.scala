@@ -30,7 +30,13 @@ class CPUTop extends Module {
   //Connecting the modules
   //programCounter.io.run := io.run
   //programMemory.io.address := programCounter.io.programCounter
-
+  
+  ////////////////////////////////////////////
+  when (controlUnit.io.useIMM) {
+    dataMemory.io.address := alu.io.result
+  }.otherwise{
+    dataMemory.io.address := registerFile.io.outA
+  }
   ////////////////////////////////////////////
   val haltReg = RegInit(false.B)
   when (controlUnit.io.halt) {
